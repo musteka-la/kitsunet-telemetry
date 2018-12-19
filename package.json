@@ -1,0 +1,25 @@
+{
+  "name": "kitsunet-telemetry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitriy Ryajov <dryajov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "debug": "^4.1.0",
+    "end-of-stream": "^1.4.1",
+    "http-poll-stream": "^2.1.1",
+    "multiplex": "^6.7.0",
+    "obs-store": "^3.0.2",
+    "pify": "^4.0.1",
+    "pull-stream-to-stream": "^1.3.4",
+    "pump": "^3.0.0",
+    "rpc-stream": "^2.1.2",
+    "throttle-obj-stream": "^1.0.0",
+    "websocket-stream": "^5.1.2"
+  }
+}
