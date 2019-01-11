@@ -2,8 +2,8 @@
 
 const base = require('./base')
 
-const { sec, min } = require('../../utils/time')
-const randomFromRange = require('../../utils/randomFromRange')
+const { sec, min } = require('../utils/time')
+const randomFromRange = require('../utils/randomFromRange')
 
 const isNode = require('detect-node')
 

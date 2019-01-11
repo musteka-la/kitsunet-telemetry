@@ -2,7 +2,7 @@
   "name": "kitsunet-telemetry",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,6 +16,7 @@
     "multiplex": "^6.7.0",
     "obs-store": "^3.0.2",
     "pify": "^4.0.1",
+    "promise-to-callback": "^1.0.0",
     "pull-stream-to-stream": "^1.3.4",
     "pump": "^3.0.0",
     "rpc-stream": "^2.1.2",

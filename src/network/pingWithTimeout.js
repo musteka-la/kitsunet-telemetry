@@ -1,6 +1,6 @@
 'use string'
 
-const timeout = require('../../utils/timeout')
+const timeout = require('../utils/timeout')
 
 const log = require('debug')('kitsunet:network:ping')
 
