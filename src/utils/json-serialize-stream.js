@@ -1,4 +1,8 @@
+'use strict'
+
 const through = require('through2').obj
+
+const log = require('debug')('kitsunet:telemetry:utils:json-stream')
 
 module.exports = { createJsonSerializeStream, createJsonParseStream }
 
@@ -7,7 +11,7 @@ function createJsonSerializeStream () {
     try {
       this.push(Buffer.from(JSON.stringify(newObj)))
     } catch (err) {
-      console.log('Error serializing json, skipping: ', err)
+      log('Error serializing json, skipping: ', err)
     }
     cb()
   })
@@ -18,7 +22,7 @@ function createJsonParseStream () {
     try {
       this.push(JSON.parse(buffer))
     } catch (err) {
-      console.log('Error parsing json, skipping: ', err)
+      log('Error parsing json, skipping: ', err)
     }
     cb()
   })

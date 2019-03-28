@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = timeout
 
 function timeout (timeoutDuration, value) {

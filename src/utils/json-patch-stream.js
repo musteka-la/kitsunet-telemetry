@@ -1,5 +1,9 @@
+'use strict'
+
 const { compare, applyPatch, deepClone } = require('fast-json-patch')
 const through = require('through2').obj
+
+const log = require('debug')('kitsunet:telemetry:utils:patch-stream')
 
 module.exports = { toDiffs, fromDiffs }
 
@@ -14,7 +18,7 @@ function toDiffs () {
       // warning: increases memory footprint
       lastObj = deepClone(newObj)
     } catch (err) {
-      console.log(`an error occurred patching json diff`, err)
+      log(`an error occurred patching json diff`, err)
     }
     cb()
   })
@@ -30,7 +34,7 @@ function fromDiffs () {
       // warning: increases memory footprint
       lastObj = deepClone(newObj)
     } catch (err) {
-      console.log(`an error occurred patching json diff`, err)
+      log(`an error occurred patching json diff`, err)
     }
     cb()
   })

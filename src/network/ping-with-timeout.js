@@ -1,8 +1,8 @@
-'use string'
+'use strict'
 
 const timeout = require('../utils/timeout')
 
-const log = require('debug')('kitsunet:network:ping')
+const log = require('debug')('kitsunet:network:ping-with-timeout')
 
 module.exports = async (rpc, pingTimeout) => {
   // mark client as not responded yet

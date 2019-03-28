@@ -2,8 +2,10 @@
 
 const base = require('./base')
 
+const log = require('debug')('kitsunet:telemetry:rpc-server')
+
 module.exports = function (server, client) {
-  return Object.assign({}, {
+  return Object.assign(base(), {
     setPeerId: async (peerId) => {
       client.peerId = peerId
       // update network state
@@ -21,8 +23,8 @@ module.exports = function (server, client) {
       server.networkStore.putState(networkState)
     },
     disconnect: async (peerId) => {
-      console.log(`client "${peerId}" sent disconnect request`)
+      log(`client "${peerId}" sent disconnect request`)
       server.disconnectClient(client)
     }
-  }, base())
+  })
 }

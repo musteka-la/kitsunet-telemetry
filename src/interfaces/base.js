@@ -2,8 +2,6 @@
 
 module.exports = function () {
   return {
-    ping: async () => {
-      return 'pong'
-    }
+    ping: async () => 'pong'
   }
 }

@@ -10,10 +10,12 @@ const throttleStream = require('throttle-obj-stream')
 const { toDiffs } = require('../util/jsonPatchStream')
 const { createJsonSerializeStream } = require('../util/jsonSerializeStream')
 
+const log = require('debug')('kitsunet:telemetry:rpc-admin')
+
 const remoteCallTimeout = 45 * sec
 
 module.exports = function (server, clients, networkStore, conn) {
-  return Object.assign({}, {
+  return Object.assign(base(), {
     // server data
     getPeerCount: async () => {
       return clients.length
@@ -23,17 +25,17 @@ module.exports = function (server, clients, networkStore, conn) {
     },
     // send to client
     sendToClient: async (clientId, method, args) => {
-      console.log(`forwarding "${method}" with (${args}) to client ${clientId}`)
+      log(`forwarding "${method}" with (${args}) to client ${clientId}`)
       const client = server.clients.find(c => c.peerId === clientId)
       if (!client) {
-        console.log(`no client found ${clientId}`)
+        log(`no client found ${clientId}`)
         return
       }
       return server.sendCallWithTimeout(client.rpcAsync, method, args, remoteCallTimeout)
     },
     // broadcast
     send: async (method, args) => {
-      console.log(`broadcasting "${method}" with (${args}) to ${global.clients.length} client(s)`)
+      log(`broadcasting "${method}" with (${args}) to ${global.clients.length} client(s)`)
       return server.broadcastCall(method, args, remoteCallTimeout)
     },
     refresh: async () => {
@@ -54,10 +56,10 @@ module.exports = function (server, clients, networkStore, conn) {
         toDiffs(),
         serializeStream,
         (err) => {
-          if (err) console.log('admin diff stream broke', err)
+          if (err) log('admin diff stream broke', err)
         }
       )
       return serializeStream
     }
-  }, base())
+  })
 }

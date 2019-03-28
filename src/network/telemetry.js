@@ -1,3 +1,5 @@
+'use strict'
+
 const websocket = require('websocket-stream')
 const createHttpClientStream = require('http-poll-stream/src/client')
 

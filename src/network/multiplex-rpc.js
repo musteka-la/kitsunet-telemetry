@@ -1,6 +1,10 @@
+'use strict'
+
 var RPC = require('rpc-stream')
 var multiplex = require('multiplex')
 const pump = require('pump')
+
+const log = require('debug')('kitsunet:telemetry:network:multiplex-rpc')
 
 module.exports = function (api) {
   var index = 2
@@ -18,7 +22,7 @@ module.exports = function (api) {
           mx.createSharedStream(id),
           stream,
           (err) => {
-            console.log(`multiplexRpc internal child "${id}" stream ended`, err.message)
+            log(`multiplexRpc internal child "${id}" stream ended`, err.message)
           }
         )
       })
@@ -43,7 +47,7 @@ module.exports = function (api) {
     mx.createSharedStream('0'),
     irpc,
     (err) => {
-      console.log('multiplexRpc internal stream ended', err.message)
+      log('multiplexRpc internal stream ended', err.message)
     }
   )
   pump(
@@ -51,7 +55,7 @@ module.exports = function (api) {
     mx.createSharedStream('1'),
     prpc,
     (err) => {
-      console.log('multiplexRpc public stream ended', err.message)
+      log('multiplexRpc public stream ended', err.message)
     }
   )
 

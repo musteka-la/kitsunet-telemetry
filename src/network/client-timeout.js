@@ -1,5 +1,9 @@
-const pingWithTimeout = require('./pingWithTimeout')
+'use strict'
+
+const pingWithTimeout = require('./ping-with-timeout')
 const timeout = require('../utils/timeout')
+
+const log = require('debug')('kitsunet:telemetry:network:client-timeout')
 
 module.exports = { pingAllClientsOnInterval, pingClientWithTimeout }
 
@@ -13,7 +17,7 @@ async function pingAllClientsOnInterval ({
     try {
       await pingClientsWithTimeout()
     } catch (err) {
-      console.error(err)
+      log(err)
     }
     await timeout(heartBeatInterval)
   }
