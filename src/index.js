@@ -1,10 +1,11 @@
 'use strict'
 
 const TelemetryClient = require('./client')
-const { connectViaPost, connectViaWS } = require('./network')
 
 module.exports = {
   TelemetryClient,
-  connectViaPost,
-  connectViaWS
+  network: require('./network'),
+  utils: require('./utils'),
+  interfaces: require('./interfaces'),
+  rpc: require('./rpc')
 }

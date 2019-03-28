@@ -3,10 +3,13 @@
 const assert = require('assert')
 const isNode = require('detect-node')
 const { createRpc } = require('./rpc')
-const createClientInterface = require('./interfaces/client')
-const createServerInterface = require('./interfaces/server')
 const timeout = require('./utils/timeout')
 const { sec } = require('./utils/time')
+
+const {
+  client: createClientInterface,
+  server: createServerInterface
+} = require('./interfaces')
 
 const log = require('debug')('kitsunet:telemetry:client')
 

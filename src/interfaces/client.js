@@ -1,13 +1,13 @@
 'use strict'
 
-const base = require('./base')
+const { base } = require('./base')
 const assert = require('assert')
 const { sec, min } = require('../utils/time')
 const randomFromRange = require('../utils/random-from-range')
 
 const log = require('debug')('kitsunet:telemetry:rpc-client')
 
-module.exports = function ({ restart }) {
+exports.client = function client ({ restart }) {
   assert(restart, 'must provide restart function')
 
   return Object.assign(base(), {

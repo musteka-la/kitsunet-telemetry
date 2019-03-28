@@ -1,20 +1,20 @@
 'use strict'
 
-const base = require('./base')
-const { sec } = require('../util/time')
+const { base } = require('./base')
+const { sec } = require('../utils/time')
 
 const pump = require('pump')
 const asStream = require('obs-store/lib/asStream')
 const throttleStream = require('throttle-obj-stream')
 
-const { toDiffs } = require('../util/jsonPatchStream')
-const { createJsonSerializeStream } = require('../util/jsonSerializeStream')
+const { toDiffs } = require('../utils/json-patch-stream')
+const { createJsonSerializeStream } = require('../utils/json-serialize-stream')
 
 const log = require('debug')('kitsunet:telemetry:rpc-admin')
 
 const remoteCallTimeout = 45 * sec
 
-module.exports = function (server, clients, networkStore, conn) {
+exports.serverAdmin = function serverAdmin (server, clients, networkStore, conn) {
   return Object.assign(base(), {
     // server data
     getPeerCount: async () => {

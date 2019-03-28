@@ -1,10 +1,10 @@
 'use strict'
 
-const base = require('./base')
+const { base } = require('./base')
 
 const log = require('debug')('kitsunet:telemetry:rpc-server')
 
-module.exports = function (server, client) {
+exports.server = function server (server, client) {
   return Object.assign(base(), {
     setPeerId: async (peerId) => {
       client.peerId = peerId

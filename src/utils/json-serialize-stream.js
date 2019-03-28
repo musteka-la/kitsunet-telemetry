@@ -19,8 +19,10 @@ function createJsonSerializeStream () {
 
 function createJsonParseStream () {
   return through(function (buffer, _, cb) {
+    let _buf = buffer
     try {
-      this.push(JSON.parse(buffer))
+      if (Buffer.isBuffer(buffer)) _buf = buffer.toString()
+      this.push(JSON.parse(_buf))
     } catch (err) {
       log('Error parsing json, skipping: ', err)
     }
