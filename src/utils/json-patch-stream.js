@@ -3,7 +3,8 @@
 const { compare, applyPatch, deepClone } = require('fast-json-patch')
 const through = require('through2').obj
 
-const log = require('debug')('kitsunet:telemetry:utils:patch-stream')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:utils:patch-stream')
 
 module.exports = { toDiffs, fromDiffs }
 

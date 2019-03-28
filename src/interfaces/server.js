@@ -2,7 +2,8 @@
 
 const { base } = require('./base')
 
-const log = require('debug')('kitsunet:telemetry:rpc-server')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:rpc-server')
 
 exports.server = function server (server, client) {
   return Object.assign(base(), {

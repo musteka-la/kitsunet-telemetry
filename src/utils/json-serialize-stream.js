@@ -2,7 +2,8 @@
 
 const through = require('through2').obj
 
-const log = require('debug')('kitsunet:telemetry:utils:json-stream')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:utils:json-stream')
 
 module.exports = { createJsonSerializeStream, createJsonParseStream }
 

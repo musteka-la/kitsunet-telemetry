@@ -5,7 +5,8 @@ const assert = require('assert')
 const { sec, min } = require('../utils/time')
 const randomFromRange = require('../utils/random-from-range')
 
-const log = require('debug')('kitsunet:telemetry:rpc-client')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:rpc-client')
 
 exports.client = function client ({ restart }) {
   assert(restart, 'must provide restart function')
@@ -23,7 +24,7 @@ exports.client = function client ({ restart }) {
   })
 
   async function restartWithDelay (timeoutDuration) {
-    log(`MetaMask Mesh Testing - restarting in ${timeoutDuration / 1000} sec...`)
+    log(`Telemetry - restarting in ${timeoutDuration / 1000} sec...`)
     setTimeout(() => restart(), timeoutDuration)
   }
 }

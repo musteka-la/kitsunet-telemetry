@@ -10,7 +10,8 @@ const throttleStream = require('throttle-obj-stream')
 const { toDiffs } = require('../utils/json-patch-stream')
 const { createJsonSerializeStream } = require('../utils/json-serialize-stream')
 
-const log = require('debug')('kitsunet:telemetry:rpc-admin')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:rpc-admin')
 
 const remoteCallTimeout = 45 * sec
 

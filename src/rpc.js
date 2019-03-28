@@ -5,7 +5,8 @@ const { cbifyObj } = require('./utils/cbify')
 const promisify = require('promisify-this')
 const multiplexRpc = require('./network/multiplex-rpc')
 
-const log = require('debug')('kitsunet:telemetry:rpc')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:rpc')
 
 module.exports = {
   createRpc,

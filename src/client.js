@@ -11,7 +11,8 @@ const {
   server: createServerInterface
 } = require('./interfaces')
 
-const log = require('debug')('kitsunet:telemetry:client')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:client')
 
 const DEFAULT_SUBMIT_INTERVAL = 15 * sec
 
@@ -69,7 +70,8 @@ class TelemetryClient {
 
   async submitState () {
     const state = this.getState()
-    this.telemetryRpc.submitNetworkState(state)
+    const res = await this.telemetryRpc.submitNetworkState(state)
+    console.dir(res)
   }
 }
 

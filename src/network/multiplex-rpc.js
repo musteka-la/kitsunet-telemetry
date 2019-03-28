@@ -4,7 +4,8 @@ var RPC = require('rpc-stream')
 var multiplex = require('multiplex')
 const pump = require('pump')
 
-const log = require('debug')('kitsunet:telemetry:network:multiplex-rpc')
+const debug = require('debug')
+const log = debug('kitsunet:telemetry:network:multiplex-rpc')
 
 module.exports = function (api) {
   var index = 2
@@ -33,7 +34,7 @@ module.exports = function (api) {
   var prpc = RPC(api, {
     flattenError: (err) => {
       if (!(err instanceof Error)) return err
-      console.error('sending error over rpc', err)
+      log('sending error over rpc', err)
       return {
         message: err.message,
         stack: err.stack
