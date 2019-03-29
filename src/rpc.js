@@ -37,6 +37,11 @@ function createRpcClient (rpcInterface, rpcServer) {
   const methodNames = Object.keys(rpcInterface)
   const normalizedNames = methodNames.map((name) => name.match(/stream$/i) ? `${name}:s` : name)
   const rawRpcClient = rpcServer.wrap(normalizedNames)
-  const rpcClient = promisify(rawRpcClient)
+  const rpcClient = rawRpcClient
+  methodNames.forEach((name) => {
+    if (!name.match(/stream$/i)) {
+      rawRpcClient[name] = promisify(rawRpcClient[name], rawRpcClient)
+    }
+  })
   return rpcClient
 }

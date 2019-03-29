@@ -8,7 +8,8 @@ const randomFromRange = require('../utils/random-from-range')
 const debug = require('debug')
 const log = debug('kitsunet:telemetry:rpc-client')
 
-exports.client = function client ({ restart }) {
+const noop = () => { }
+exports.client = function client ({ restart } = { restart: noop }) {
   assert(restart, 'must provide restart function')
 
   return Object.assign(base(), {

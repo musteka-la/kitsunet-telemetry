@@ -70,8 +70,7 @@ class TelemetryClient {
 
   async submitState () {
     const state = this.getState()
-    const res = await this.telemetryRpc.submitNetworkState(state)
-    console.dir(res)
+    await this.telemetryRpc.submitNetworkState(state)
   }
 }
 
