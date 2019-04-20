@@ -25,7 +25,12 @@ exports.server = function server (server, client) {
     },
     disconnect: async (peerId) => {
       log(`client "${peerId}" sent disconnect request`)
-      server.disconnectClient(client)
+      // let disconnect request complete, before
+      // closing the connection to the client,
+      // otherwise it will always fail
+      setTimeout(() => {
+        server.disconnectClient(client)
+      }, 100)
     }
   })
 }
