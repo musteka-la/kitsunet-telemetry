@@ -17,7 +17,7 @@ const log = debug('kitsunet:telemetry:client')
 const DEFAULT_SUBMIT_INTERVAL = 15 * sec
 
 class TelemetryClient {
-  constructor ({ clientId, submitInterval, connection }) {
+  constructor ({ clientId, submitInterval, connection, rpcInterface }) {
     this.getState = () => {}
     this.clientId = clientId
     this.submitInterval = submitInterval || DEFAULT_SUBMIT_INTERVAL
@@ -26,20 +26,11 @@ class TelemetryClient {
     assert(clientId, 'must provide clientId')
 
     const telemetryRpc = createRpc({
-      clientInterface: createClientInterface({ restart }),
+      clientInterface: createClientInterface(rpcInterface),
       serverInterface: createServerInterface(),
       connection
     })
     this.telemetryRpc = telemetryRpc
-
-    async function restart () {
-      if (isNode) {
-        log('restart requested from telemetry server...')
-        return
-      }
-      await telemetryRpc.disconnect(clientId)
-      window.location.reload()
-    }
   }
 
   start () {

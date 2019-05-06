@@ -9,23 +9,6 @@ const debug = require('debug')
 const log = debug('kitsunet:telemetry:rpc-client')
 
 const noop = () => { }
-exports.client = function client ({ restart } = { restart: noop }) {
-  assert(restart, 'must provide restart function')
-
-  return Object.assign(base(), {
-    refresh: async () => {
-      return restart()
-    },
-    refreshShortDelay: () => {
-      return restartWithDelay(randomFromRange(5 * sec, 10 * sec))
-    },
-    refreshLongDelay: async () => {
-      return restartWithDelay(randomFromRange(2 * min, 10 * min))
-    }
-  })
-
-  async function restartWithDelay (timeoutDuration) {
-    log(`Telemetry - restarting in ${timeoutDuration / 1000} sec...`)
-    setTimeout(() => restart(), timeoutDuration)
-  }
+exports.client = function client (rpcInterface) {
+  return Object.assign(base(), rpcInterface)
 }

@@ -35,8 +35,10 @@ function createRpcServer (rpcInterface, connection) {
 }
 
 function createRpcClient (rpcInterface, rpcServer) {
+  // use remote interface to create rpc api
   const rpcLowInterface = toLowLevelInterface(rpcInterface)
   const methodNames = Object.keys(rpcLowInterface)
+  // add `:s` flad to stream functions so that they return streams
   const normalizedNames = methodNames.map((name) => name.match(/stream$/i) ? `${name}:s` : name)
   const rawRpcClient = rpcServer.wrap(normalizedNames)
   const rpcClient = toHighLevelInterface(rawRpcClient)
