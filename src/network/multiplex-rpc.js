@@ -1,15 +1,17 @@
 'use strict'
 
-var RPC = require('rpc-stream')
-var multiplex = require('multiplex')
+const RPC = require('rpc-stream')
+const multiplex = require('multiplex')
 const pump = require('pump')
 
 const debug = require('debug')
 const log = debug('kitsunet:telemetry:network:multiplex-rpc')
 
 module.exports = function (api) {
-  var index = 2
-  var irpc = RPC({ // internal rpc
+  let streamCount = 2
+
+  // internal rpc
+  const irpc = RPC({
     open: function (id, name, args) {
       if (typeof api[name] !== 'function') return
       args = [].splice.call(args)
@@ -30,8 +32,10 @@ module.exports = function (api) {
       api[name].apply(null, args)
     }
   })
-  var iclient = irpc.wrap([ 'open' ])
-  var prpc = RPC(api, {
+  const iclient = irpc.wrap([ 'open' ])
+
+  // public interface
+  const prpc = RPC(api, {
     flattenError: (err) => {
       if (!(err instanceof Error)) return err
       log('sending error over rpc', err)
@@ -40,9 +44,9 @@ module.exports = function (api) {
         stack: err.stack
       }
     }
-  }) // public interface
+  })
 
-  var mx = multiplex({ chunked: true })
+  const mx = multiplex({ chunked: true })
   pump(
     irpc,
     mx.createSharedStream('0'),
@@ -62,13 +66,13 @@ module.exports = function (api) {
 
   mx.wrap = function (methods) {
     const m = typeof methods.map === 'undefined' ? Object.keys(methods) : methods
-    var names = m.map(function (m) {
+    const names = m.map(function (m) {
       return m.split(':')[0]
     })
-    var wrapped = prpc.wrap(names)
+    const wrapped = prpc.wrap(names)
     m.forEach(function (m) {
-      var parts = m.split(':')
-      var name = parts[0]
+      const parts = m.split(':')
+      const name = parts[0]
       if (parts[1] === 's') {
         wrapped[name] = wrapStream(name)
       }
@@ -79,8 +83,8 @@ module.exports = function (api) {
 
   function wrapStream (name) {
     return function () {
-      var args = [].slice.call(arguments)
-      var id = String(index++)
+      const args = [].slice.call(arguments)
+      const id = String(streamCount++)
       iclient.open(id, name, args)
       return mx.createSharedStream(id)
     }

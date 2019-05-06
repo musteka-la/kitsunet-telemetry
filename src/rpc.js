@@ -1,9 +1,10 @@
 'use strict'
 
 const pump = require('pump')
-const { cbifyObj } = require('./utils/cbify')
+const { flatten, unflatten } = require('flat')
 const promisify = require('promisify-this')
 const multiplexRpc = require('./network/multiplex-rpc')
+const { cbifyObj } = require('./utils/cbify')
 
 const debug = require('debug')
 const log = debug('kitsunet:telemetry:rpc')
@@ -21,7 +22,7 @@ function createRpc ({ clientInterface, serverInterface, connection }) {
 }
 
 function createRpcServer (rpcInterface, connection) {
-  const rawInterface = cbifyObj(rpcInterface)
+  const rawInterface = toLowLevelInterface(rpcInterface)
   const rpcServer = multiplexRpc(rawInterface)
   pump(
     connection,
@@ -34,14 +35,30 @@ function createRpcServer (rpcInterface, connection) {
 }
 
 function createRpcClient (rpcInterface, rpcServer) {
-  const methodNames = Object.keys(rpcInterface)
+  const rpcLowInterface = toLowLevelInterface(rpcInterface)
+  const methodNames = Object.keys(rpcLowInterface)
   const normalizedNames = methodNames.map((name) => name.match(/stream$/i) ? `${name}:s` : name)
   const rawRpcClient = rpcServer.wrap(normalizedNames)
-  const rpcClient = rawRpcClient
+  const rpcClient = toHighLevelInterface(rawRpcClient)
+  return rpcClient
+}
+
+// low-level interface to high-level interface
+function toLowLevelInterface (rpcInterface) {
+  return cbifyObj(flatten(rpcInterface))
+}
+
+// high-level interface to low-level interface
+function toHighLevelInterface (rpcInterface) {
+  const highInterface = {}
+  const methodNames = Object.keys(rpcInterface)
   methodNames.forEach((name) => {
+    // ignore those that match 'stream' so they can synchronously return streams
     if (!name.match(/stream$/i)) {
-      rawRpcClient[name] = promisify(rawRpcClient[name], rawRpcClient)
+      // callbacks -> promises
+      highInterface[name] = promisify(rpcInterface[name], rpcInterface)
     }
   })
-  return rpcClient
+  // return final unflattened api
+  return unflatten(highInterface)
 }
