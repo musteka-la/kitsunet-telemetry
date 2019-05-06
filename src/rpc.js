@@ -59,6 +59,8 @@ function toHighLevelInterface (rpcInterface) {
     if (!name.match(/stream$/i)) {
       // callbacks -> promises
       highInterface[name] = promisify(rpcInterface[name], rpcInterface)
+    } else {
+      highInterface[name] = rpcInterface[name].bind(rpcInterface)
     }
   })
   // return final unflattened api
