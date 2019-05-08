@@ -3,7 +3,7 @@
 const pump = require('pump')
 const pify = require('pify')
 const { flatten, unflatten } = require('flat')
-const promisify = require('promisify-this')
+const promisify = require('promisify-this').default
 const multiplexRpc = require('./network/multiplex-rpc')
 const { cbifyObj } = require('./utils/cbify')
 

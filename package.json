@@ -19,7 +19,7 @@
     "obs-store": "^3.0.2",
     "pify": "^4.0.1",
     "promise-to-callback": "^1.0.0",
-    "promisify-this": "^2.0.2",
+    "promisify-this": "^2.2.0",
     "pump": "^3.0.0",
     "readable-stream": "^3.3.0",
     "rpc-stream": "^2.1.2",
