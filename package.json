@@ -9,23 +9,25 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "assert": "^1.4.1",
     "debug": "^4.1.1",
     "detect-node": "^2.0.4",
     "duplexify": "^4.0.0",
-    "end-of-stream": "^1.4.1",
     "fast-json-patch": "^2.0.7",
     "flat": "^4.1.0",
     "http-poll-stream": "^2.1.1",
     "multiplex": "^6.7.0",
     "obs-store": "^3.0.2",
+    "pify": "^4.0.1",
     "promise-to-callback": "^1.0.0",
     "promisify-this": "^2.0.2",
-    "pull-stream-to-stream": "^1.3.4",
     "pump": "^3.0.0",
     "readable-stream": "^3.3.0",
     "rpc-stream": "^2.1.2",
     "throttle-obj-stream": "^1.0.0",
     "websocket-stream": "^5.3.0"
+  },
+  "devDependencies": {
+    "tape": "^4.10.1",
+    "through2": "^3.0.1"
   }
 }
