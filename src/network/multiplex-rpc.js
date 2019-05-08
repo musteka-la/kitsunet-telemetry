@@ -64,6 +64,10 @@ module.exports = function (api) {
     }
   )
 
+  mx.rpc = (name, args, cb) => {
+    mx.wrap([name])[name](...args, cb)
+  }
+
   mx.wrap = function (methods) {
     const m = typeof methods.map === 'undefined' ? Object.keys(methods) : methods
     const names = m.map(function (m) {

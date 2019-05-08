@@ -1,6 +1,7 @@
 'use strict'
 
 const pump = require('pump')
+const pify = require('pify')
 const { flatten, unflatten } = require('flat')
 const promisify = require('promisify-this')
 const multiplexRpc = require('./network/multiplex-rpc')
@@ -42,6 +43,10 @@ function createRpcClient (rpcInterface, rpcServer) {
   const normalizedNames = methodNames.map((name) => name.match(/stream$/i) ? `${name}:s` : name)
   const rawRpcClient = rpcServer.wrap(normalizedNames)
   const rpcClient = toHighLevelInterface(rawRpcClient)
+  // method to send by method string
+  rpcClient.send = (name, ...args) => {
+    return pify(cb => rpcServer.rpc(name, args, cb))()
+  }
   return rpcClient
 }
 
